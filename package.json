@@ -4,15 +4,22 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web"
   },
   "dependencies": {
-    "expo": "~50.0.0-preview.11",
+    "@shopify/react-native-skia": "0.1.221",
+    "@types/react": "~18.2.45",
+    "expo": "^50.0.0",
     "expo-status-bar": "~1.11.1",
     "react": "18.2.0",
-    "react-native": "0.73.2"
+    "react-native": "0.73.2",
+    "react-native-fast-tflite": "^1.1.1",
+    "react-native-vision-camera": "^3.8.2",
+    "react-native-worklets-core": "^0.2.4",
+    "typescript": "^5.3.0",
+    "vision-camera-resize-plugin": "^1.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
