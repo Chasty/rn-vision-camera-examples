@@ -51,8 +51,6 @@ type DetectionLocation = {
   label: string;
 };
 
-const currentModel: "efficient" | "ssd_mobilenet_v1" = "efficient";
-
 const modelsInput = {
   ssd_mobilenet_v1: {
     input: {
@@ -74,6 +72,10 @@ const modelsInput = {
   },
 };
 
+type TFLiteModel = keyof typeof modelsInput;
+
+const tfLiteModels = Object.keys(modelsInput) as TFLiteModel[];
+
 export function MultipleDetectionsAndPhotoScreen() {
   const { hasPermission, requestPermission } = useCameraPermission();
   const [guess, setGuess] = useState("");
@@ -82,6 +84,8 @@ export function MultipleDetectionsAndPhotoScreen() {
   const [photoPath, setPhotoPath] = useState<string>();
   const image = useImage(`file://${photoPath}`);
   const { back } = useRouter();
+
+  const [currentModel, setCurrentModel] = useState<TFLiteModel>("efficient");
 
   const boxLocation = useSharedValue([0, 0, 100, 100]);
 
@@ -328,6 +332,33 @@ export function MultipleDetectionsAndPhotoScreen() {
   return (
     <View style={styles.container}>
       <BackButton />
+
+      <View
+        style={{
+          position: "absolute",
+          right: 32,
+          top: 64,
+          gap: 8,
+          zIndex: 10001,
+        }}
+      >
+        {tfLiteModels.map((m) => (
+          <TouchableOpacity
+            key={m}
+            onPress={() => setCurrentModel(m)}
+            style={{
+              borderRadius: 16,
+              paddingVertical: 16,
+              paddingHorizontal: 8,
+              backgroundColor:
+                currentModel === m ? "skyblue" : "rgba(33, 33, 33, 0.2)",
+            }}
+          >
+            <Text style={{ color: "white" }}>{m}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
       {photoPath && (
         <Canvas style={{ flex: 1 }}>
           <Image
@@ -401,15 +432,6 @@ export function MultipleDetectionsAndPhotoScreen() {
           onPress={takePhoto}
         ></Pressable>
       )}
-
-      {Object.entries(modelsInput).map(([key, value]) => (
-        <View
-          key={key}
-          style={{ position: "absolute", right: 16, top: 64, gap: 8 }}
-        >
-          <Text>{JSON.stringify(value, undefined, 4)}</Text>
-        </View>
-      ))}
     </View>
   );
 }

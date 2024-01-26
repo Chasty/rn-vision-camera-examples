@@ -11,7 +11,7 @@ export const BackButton = () => {
         backgroundColor: "rgba(33,33,33,.2)",
         position: "absolute",
         left: 32,
-        top: 32,
+        top: 48,
         zIndex: 100001,
         padding: 16,
       }}

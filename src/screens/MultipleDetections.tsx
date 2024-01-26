@@ -1,5 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useTensorflowModel } from "react-native-fast-tflite";
 import {
   Camera,
@@ -32,8 +38,6 @@ type DetectionLocation = {
   label: string;
 };
 
-const currentModel: "efficient" | "ssd_mobilenet_v1" = "ssd_mobilenet_v1";
-
 const modelsInput = {
   ssd_mobilenet_v1: {
     input: {
@@ -55,12 +59,18 @@ const modelsInput = {
   },
 };
 
+type TFLiteModel = keyof typeof modelsInput;
+
+const tfLiteModels = Object.keys(modelsInput) as TFLiteModel[];
+
 export function MultipleDetectionsScreen() {
   const { hasPermission, requestPermission } = useCameraPermission();
   const device = useCameraDevice("back");
   const camera = useRef<Camera>(null);
 
   const [detections, setDetections] = useState<BoundingBox[]>([]);
+
+  const [currentModel, setCurrentModel] = useState<TFLiteModel>("efficient");
 
   const selectedModel = modelsInput[currentModel];
 
@@ -218,6 +228,33 @@ export function MultipleDetectionsScreen() {
   return (
     <View style={styles.container}>
       <BackButton />
+
+      <View
+        style={{
+          position: "absolute",
+          right: 20,
+          top: 64,
+          gap: 8,
+          zIndex: 10001,
+        }}
+      >
+        {tfLiteModels.map((m) => (
+          <TouchableOpacity
+            key={m}
+            onPress={() => setCurrentModel(m)}
+            style={{
+              borderRadius: 16,
+              paddingVertical: 16,
+              paddingHorizontal: 8,
+              backgroundColor:
+                currentModel === m ? "skyblue" : "rgba(33, 33, 33, 0.2)",
+            }}
+          >
+            <Text style={{ color: "white" }}>{m}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
       {detections.map((d, idx) => (
         <View
           key={"detection" + idx + d.left}
@@ -248,15 +285,6 @@ export function MultipleDetectionsScreen() {
         pixelFormat="rgb"
         frameProcessor={frameProcessor}
       />
-
-      {Object.entries(modelsInput).map(([key, value]) => (
-        <View
-          key={key}
-          style={{ position: "absolute", right: 16, top: 64, gap: 8 }}
-        >
-          <Text>{JSON.stringify(value, undefined, 4)}</Text>
-        </View>
-      ))}
     </View>
   );
 }
