@@ -5,6 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "scheme": "cameraman",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -42,7 +43,14 @@
           "enableMicrophonePermission": true,
           "microphonePermissionText": "$(PRODUCT_NAME) needs access to your Microphone."
         }
-      ]
+      ],
+      [
+        "react-native-fast-tflite",
+        {
+          "enableCoreMLDelegate": true
+        }
+      ],
+      "expo-router"
     ]
   }
 }
