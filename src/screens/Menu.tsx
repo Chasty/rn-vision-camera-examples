@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
-import { useNavigation, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 
 const MenuItem = ({
   item,
@@ -35,7 +35,7 @@ const Menu = () => {
           marginBottom: 16,
         }}
       >
-        Vision Camera POC
+        {`Vision Camera\nExamples`}
       </Text>
       <MenuItem
         onPress={goToScreen}
