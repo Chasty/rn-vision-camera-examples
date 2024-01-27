@@ -18,13 +18,52 @@ const MenuItem = ({
   );
 };
 
-const Menu = () => {
+export const ObjectDetectionMenuItems = () => {
   const { navigate } = useRouter();
 
   const goToScreen = (route: string) => {
     navigate(route);
   };
 
+  return (
+    <View>
+      <Text
+        style={{
+          fontSize: 16,
+          marginBottom: 12,
+          fontWeight: "700",
+          fontStyle: "italic",
+        }}
+      >
+        1. Object Detection
+      </Text>
+      <View style={{ gap: 32 }}>
+        <MenuItem
+          onPress={goToScreen}
+          item="Multiple Detections"
+          route="multiple_detections"
+        />
+        <MenuItem
+          onPress={goToScreen}
+          item="Single Detection with Reanimated"
+          route="single_detection_reanimated"
+        />
+        <MenuItem
+          onPress={goToScreen}
+          item="Multiple Detections and Photo"
+          route="mutliple_detections_and_photo"
+        />
+        <MenuItem
+          onPress={goToScreen}
+          item="Take Photo and Detect"
+          route="take_photo_and_detect"
+        />
+      </View>
+    </View>
+  );
+};
+
+const Menu = () => {
   return (
     <View style={styles.container}>
       <Text
@@ -37,26 +76,8 @@ const Menu = () => {
       >
         {`Vision Camera\nExamples`}
       </Text>
-      <MenuItem
-        onPress={goToScreen}
-        item="Multiple Detections"
-        route="multiple_detections"
-      />
-      <MenuItem
-        onPress={goToScreen}
-        item="Single Detection with Reanimated"
-        route="single_detection_reanimated"
-      />
-      <MenuItem
-        onPress={goToScreen}
-        item="Multiple Detections and Photo"
-        route="mutliple_detections_and_photo"
-      />
-      <MenuItem
-        onPress={goToScreen}
-        item="Take Photo and Detect"
-        route="take_photo_and_detect"
-      />
+
+      <ObjectDetectionMenuItems />
     </View>
   );
 };
