@@ -225,9 +225,9 @@ export function MultipleDetectionsAndPhotoScreen() {
             width: selectedModel.input.shape.width,
             height: selectedModel.input.shape.height,
           },
-          //pixelFormat: "rgb",
-          //dataType: "uint8",
-          pixelFormat: "rgb-uint8",
+          pixelFormat: "rgb",
+          dataType: "uint8",
+          // pixelFormat: "rgb-uint8",
         });
         const rgbData = new Uint8Array(data);
 

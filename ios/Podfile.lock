@@ -1109,7 +1109,7 @@ PODS:
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
   - SocketRocket (0.6.1)
-  - vision-camera-resize-plugin (1.0.2):
+  - vision-camera-resize-plugin (1.2.2):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
@@ -1372,7 +1372,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 03644c063fc3621c9a4e8bf263a8150909129618
   React-logger: 66b168e2b2bee57bd8ce9e69f739d805732a5570
   React-Mapbuffer: 9ee041e1d7be96da6d76a251f92e72b711c651d6
-  react-native-fast-tflite: 2442bbd63b0fdb1d511a8ce4e9d792a93bd72da6
+  react-native-fast-tflite: 369d7ded6d82a878fb481ab772c26804a2a797f0
   react-native-safe-area-context: 0ee144a6170530ccc37a0fd9388e28d06f516a89
   react-native-skia: f42cd8091136bc3edd70433e3000eb944ab14098
   react-native-worklets-core: b4094f51cb2bc649e297206425cb8956f4945e3e
@@ -1399,10 +1399,10 @@ SPEC CHECKSUMS:
   RNReanimated: 5589be82dc26b3f94738eb7c6b1f942787532b25
   RNScreens: b582cb834dc4133307562e930e8fa914b8c04ef2
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
-  vision-camera-resize-plugin: b91b0d4bbc2ed14e535358fa744768d64c358fd9
+  vision-camera-resize-plugin: ee0f8d5a040dcee7c1d8829c502b6c899c1b4af8
   VisionCamera: edbcd00e27a438b2228f67823e2b8d15a189065f
   Yoga: 13c8ef87792450193e117976337b8527b49e8c03
 
-PODFILE CHECKSUM: 59969a82330a66aab9fa37a99112e3f163000cf0
+PODFILE CHECKSUM: 343f3ed56985c0a9bbb0f15dc2bfc97799b68e09
 
 COCOAPODS: 1.12.1
