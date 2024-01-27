@@ -115,7 +115,7 @@ export function SingleDetectionReanimatedScreen() {
     };
   };
 
-  const onGetFaceDetectorResponse = Worklets.createRunInJsFn(
+  const onGetObjectDetectorResponse = Worklets.createRunInJsFn(
     async (detectionLocations: DetectionLocation[]) => {
       const locationsToDraw = [];
 
@@ -220,7 +220,7 @@ export function SingleDetectionReanimatedScreen() {
           //const [top, left, bottom, right, ...rest] = locations; used
           //const [left, top, right, bottom, ...rest] = locations;
 
-          onGetFaceDetectorResponse(topDetections);
+          onGetObjectDetectorResponse(topDetections);
         });
       }
     },

@@ -123,7 +123,7 @@ export function MultipleDetectionsAndPhotoScreen() {
     };
   };
 
-  const onGetFaceDetectorResponse = Worklets.createRunInJsFn(
+  const onGetObjectDetectorResponse = Worklets.createRunInJsFn(
     async (detectionLocations: DetectionLocation[]) => {
       const locationsToDraw = [];
 
@@ -208,7 +208,7 @@ export function MultipleDetectionsAndPhotoScreen() {
             });
           }
         }
-        onGetFaceDetectorResponse(topDetections);
+        onGetObjectDetectorResponse(topDetections);
       } catch (e) {
         console.error(e);
       }
@@ -279,7 +279,7 @@ export function MultipleDetectionsAndPhotoScreen() {
           //const [top, left, bottom, right, ...rest] = locations; used
           //const [left, top, right, bottom, ...rest] = locations;
 
-          onGetFaceDetectorResponse(topDetections);
+          onGetObjectDetectorResponse(topDetections);
         });
       }
     },

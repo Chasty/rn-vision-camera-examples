@@ -104,7 +104,7 @@ export function MultipleDetectionsScreen() {
     };
   };
 
-  const onGetFaceDetectorResponse = Worklets.createRunInJsFn(
+  const onGetObjectDetectorResponse = Worklets.createRunInJsFn(
     async (detectionLocations: DetectionLocation[]) => {
       const locationsToDraw = [];
 
@@ -202,7 +202,7 @@ export function MultipleDetectionsScreen() {
           //const [top, left, bottom, right, ...rest] = locations; used
           //const [left, top, right, bottom, ...rest] = locations;
 
-          onGetFaceDetectorResponse(topDetections);
+          onGetObjectDetectorResponse(topDetections);
         });
       }
     },
