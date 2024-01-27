@@ -12,21 +12,13 @@ import {
 import { useTensorflowModel } from "react-native-fast-tflite";
 import {
   Camera,
-  runAtTargetFps,
   useCameraDevice,
   useCameraPermission,
-  useFrameProcessor,
 } from "react-native-vision-camera";
 import { useResizePlugin } from "vision-camera-resize-plugin";
 import { labels } from "./utils/labels";
 import * as ImageManipulator from "expo-image-manipulator";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-} from "react-native-reanimated";
 import { Worklets } from "react-native-worklets-core";
-import { ReText } from "../components/ReText";
-import { useRouter } from "expo-router";
 import { BackButton } from "../components/Back";
 
 const paint = Skia.Paint();
@@ -76,25 +68,20 @@ type TFLiteModel = keyof typeof modelsInput;
 
 const tfLiteModels = Object.keys(modelsInput) as TFLiteModel[];
 
-export function MultipleDetectionsAndPhotoScreen() {
+export function TakePhotoAndDetectScreen() {
   const { hasPermission, requestPermission } = useCameraPermission();
   const [guess, setGuess] = useState("");
   const device = useCameraDevice("back");
   const camera = useRef<Camera>(null);
   const [photoPath, setPhotoPath] = useState<string>();
   const image = useImage(`file://${photoPath}`);
-  const { back } = useRouter();
 
   const [currentModel, setCurrentModel] = useState<TFLiteModel>("efficient");
-
-  const boxLocation = useSharedValue([0, 0, 100, 100]);
-
   const [detections, setDetections] = useState<BoundingBox[]>([]);
 
   const selectedModel = modelsInput[currentModel];
 
   const objectDetection = useTensorflowModel(selectedModel.modelAsset);
-  const { resize } = useResizePlugin();
 
   const model =
     objectDetection.state === "loaded" ? objectDetection.model : undefined;
@@ -157,7 +144,7 @@ export function MultipleDetectionsAndPhotoScreen() {
     }
   );
 
-  const guessPicture = async () => {
+  const detectObjects = async () => {
     const imageBytes = image.readPixels();
     const rgbData = new Uint8Array(
       selectedModel.input.shape.width * selectedModel.input.shape.height * 3
@@ -203,8 +190,7 @@ export function MultipleDetectionsAndPhotoScreen() {
               left,
               bottom,
               right,
-              label:
-                currentModel === "ssd_mobilenet_v1" ? labels[class_label] : "",
+              label: labels[class_label],
             });
           }
         }
@@ -214,77 +200,6 @@ export function MultipleDetectionsAndPhotoScreen() {
       }
     }
   };
-
-  const frameProcessor = useFrameProcessor(
-    (frame) => {
-      "worklet";
-
-      if (model) {
-        const data = resize(frame, {
-          size: {
-            width: selectedModel.input.shape.width,
-            height: selectedModel.input.shape.height,
-          },
-          pixelFormat: "rgb",
-          dataType: "uint8",
-          // pixelFpixelFormat: "rgb-uint8",ormat: "rgb-uint8",
-        });
-        const rgbData = new Uint8Array(data);
-
-        runAtTargetFps(10, () => {
-          "worklet";
-
-          const outputs = model.runSync([rgbData]);
-
-          const topDetections: DetectionLocation[] = [];
-
-          // 3. Interpret outputs accordingly
-          const detection_boxes = outputs[0];
-          const detection_classes = outputs[1];
-          const detection_scores = outputs[2];
-          const num_detections = outputs[3];
-          console.log(`Detected ${num_detections[0]} objects!`);
-          console.log(detection_classes);
-          console.log(detection_scores);
-
-          for (let i = 0; i < detection_boxes.length; i += 4) {
-            if (topDetections.length >= 3) {
-              break;
-            }
-
-            const confidence = detection_scores[i / 4];
-            const class_label = detection_classes[i / 4];
-            //if (confidence > 0.4) {
-            // 4. Draw a red box around the detected object!
-            const top = detection_boxes[i];
-            const left = detection_boxes[i + 1];
-            const bottom = detection_boxes[i + 2];
-            const right = detection_boxes[i + 3];
-
-            // const left = detection_boxes[i];
-            // const top = detection_boxes[i + 1];
-            // const right = detection_boxes[i + 2];
-            // const bottom = detection_boxes[i + 3];
-
-            topDetections.push({
-              top,
-              left,
-              bottom,
-              right,
-              label: labels[class_label],
-            });
-            // }
-          }
-
-          //const [top, left, bottom, right, ...rest] = locations; used
-          //const [left, top, right, bottom, ...rest] = locations;
-
-          onGetObjectDetectorResponse(topDetections);
-        });
-      }
-    },
-    [model]
-  );
 
   const takePhoto = async () => {
     const { width, height } = selectedModel.input.shape;
@@ -402,7 +317,6 @@ export function MultipleDetectionsAndPhotoScreen() {
           photo={true}
           isActive={!photoPath}
           pixelFormat="rgb"
-          frameProcessor={frameProcessor}
         />
       )}
 
@@ -411,8 +325,7 @@ export function MultipleDetectionsAndPhotoScreen() {
           style={{ position: "absolute", bottom: 64, left: 100, zIndex: 10000 }}
         >
           <Text>{guess}</Text>
-          <Button title="Guess" onPress={guessPicture} />
-          <Button title="Back" onPress={onBack} />
+          <Button title="Detect Objects" onPress={detectObjects} />
         </View>
       )}
 
