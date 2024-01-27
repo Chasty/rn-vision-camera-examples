@@ -52,6 +52,11 @@ const Menu = () => {
         item="Multiple Detections and Photo"
         route="mutliple_detections_and_photo"
       />
+      <MenuItem
+        onPress={goToScreen}
+        item="Take Photo and Detect"
+        route="take_photo_and_detect"
+      />
     </View>
   );
 };
