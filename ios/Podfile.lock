@@ -1109,7 +1109,7 @@ PODS:
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
   - SocketRocket (0.6.1)
-  - vision-camera-resize-plugin (1.0.2):
+  - vision-camera-resize-plugin (1.2.2):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
@@ -1399,7 +1399,7 @@ SPEC CHECKSUMS:
   RNReanimated: 5589be82dc26b3f94738eb7c6b1f942787532b25
   RNScreens: b582cb834dc4133307562e930e8fa914b8c04ef2
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
-  vision-camera-resize-plugin: b91b0d4bbc2ed14e535358fa744768d64c358fd9
+  vision-camera-resize-plugin: ee0f8d5a040dcee7c1d8829c502b6c899c1b4af8
   VisionCamera: edbcd00e27a438b2228f67823e2b8d15a189065f
   Yoga: 13c8ef87792450193e117976337b8527b49e8c03
 
